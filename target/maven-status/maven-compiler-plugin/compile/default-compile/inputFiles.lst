@@ -1,9 +1,7 @@
-C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\dao\BookDAO.java
-C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\dao\BookDAOImpl.java
-C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\dao\UserDAO.java
-C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\dao\UserDAOImpl.java
-C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\db\DatabaseConnection.java
-C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\Main.java
+C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\config\AppConfig.java
+C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\config\WebConfig.java
 C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\model\Book.java
 C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\model\User.java
-C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\web\BookServlet.java
+C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\repository\BookRepository.java
+C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\service\BookService.java
+C:\Users\User\Desktop\Git\src\main\java\com\example\bookstore\web\BookController.java

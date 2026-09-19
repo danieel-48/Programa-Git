@@ -1,10 +1,8 @@
 com\example\bookstore\model\User.class
-com\example\bookstore\db\DatabaseConnection.class
+com\example\bookstore\web\BookController.class
+com\example\bookstore\config\WebConfig.class
 com\example\bookstore\model\Book.class
 com\example\bookstore\model\User$Role.class
-com\example\bookstore\dao\BookDAOImpl.class
-com\example\bookstore\dao\UserDAOImpl.class
-com\example\bookstore\Main.class
-com\example\bookstore\dao\BookDAO.class
-com\example\bookstore\web\BookServlet.class
-com\example\bookstore\dao\UserDAO.class
+com\example\bookstore\repository\BookRepository.class
+com\example\bookstore\service\BookService.class
+com\example\bookstore\config\AppConfig.class

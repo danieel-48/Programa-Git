@@ -1,17 +1,39 @@
 package com.example.bookstore.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 
 /**
- * Representa un registro de la tabla books.
+ * Entidad JPA mapeada a la tabla books.
  */
+@Entity
+@Table(name = "books")
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_book")
     private Long idBook;
+
+    @Column(name = "title", nullable = false, length = 250)
     private String title;
+
+    @Column(name = "author", length = 100)
     private String author;
+
+    @Column(name = "category", length = 100)
     private String category;
+
+    @Column(name = "price", nullable = false, precision = 18, scale = 6)
     private BigDecimal price;
+
+    @Column(name = "stock", nullable = false)
     private int stock;
 
     public Book() {
