@@ -18,7 +18,26 @@ CREATE TABLE IF NOT EXISTS `books` (
   `title`     VARCHAR(250)      NOT NULL,
   `author`    VARCHAR(100)      NULL DEFAULT NULL,
   `category`  VARCHAR(100)      NULL DEFAULT NULL,
+  `language`  VARCHAR(80)       NULL DEFAULT NULL,
   `price`     DECIMAL(18, 6)    NOT NULL,
   `stock`     INT               NOT NULL,
   PRIMARY KEY (`id_book`)
-) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+SET @language_column_exists = (
+  SELECT COUNT(*)
+  FROM information_schema.columns
+  WHERE table_schema = DATABASE()
+    AND table_name = 'books'
+    AND column_name = 'language'
+);
+
+SET @add_language_sql = IF(
+  @language_column_exists = 0,
+  'ALTER TABLE `books` ADD COLUMN `language` VARCHAR(80) NULL DEFAULT NULL AFTER `category`',
+  'SELECT 1'
+);
+
+PREPARE add_language_statement FROM @add_language_sql;
+EXECUTE add_language_statement;
+DEALLOCATE PREPARE add_language_statement;

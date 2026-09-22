@@ -29,10 +29,13 @@ public class BookService {
     }
 
     @Transactional(readOnly = true)
-    public List<Book> findAll(String search) {
-        return search == null || search.isBlank()
-                ? bookRepository.findAll(Sort.by("idBook"))
-                : bookRepository.search(search.trim());
+    public List<Book> findAll(String search, String category, String language,
+                              java.math.BigDecimal minPrice, java.math.BigDecimal maxPrice) {
+        return bookRepository.filter(normalize(search), normalize(category), normalize(language), minPrice, maxPrice);
+    }
+
+    private String normalize(String value) {
+        return value == null ? null : value.trim();
     }
 
     public Book create(Book book) {

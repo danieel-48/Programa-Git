@@ -19,12 +19,36 @@
     </div>
 
     <div class="card">
-        <form method="get" action="${pageContext.request.contextPath}/books">
+        <form method="get" action="${pageContext.request.contextPath}/books" class="form-grid" style="max-width:none;">
             <label style="font-size:14px;color:#334155;display:grid;gap:6px;">
-                Search by ID or title
+                Search by title, author or genre
                 <input class="search-input" type="text" name="search" value="${search}"
-                       placeholder="Example: 12 or Don Quixote">
+                       placeholder="Example: Tolkien, fantasy or The Hobbit">
             </label>
+            <div class="row-2">
+                <label>
+                    Genre
+                    <input type="text" name="category" value="${category}" placeholder="Example: Fantasy">
+                </label>
+                <label>
+                    Language
+                    <input type="text" name="language" value="${language}" placeholder="Example: English">
+                </label>
+            </div>
+            <div class="row-2">
+                <label>
+                    Minimum price
+                    <input type="number" name="minPrice" min="0" step="0.01" value="${minPrice}">
+                </label>
+                <label>
+                    Maximum price
+                    <input type="number" name="maxPrice" min="0" step="0.01" value="${maxPrice}">
+                </label>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" type="submit">Apply filters</button>
+                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/books">Clear</a>
+            </div>
         </form>
     </div>
 
@@ -34,6 +58,7 @@
             <tr>
                 <th>Book</th>
                 <th>Category</th>
+                <th>Language</th>
                 <th>Price</th>
                 <th>Stock</th>
                 <th>Actions</th>
@@ -47,10 +72,13 @@
                         <div style="color:#64748b;font-size:13px;">${book.author}</div>
                     </td>
                     <td><span class="badge">${book.category}</span></td>
+                    <td>${book.language}</td>
                     <td><fmt:formatNumber value="${book.price}" type="currency" currencySymbol="$"/></td>
                     <td>${book.stock}</td>
                     <td>
                         <div class="actions">
+                            <a class="icon-btn icon-edit" title="View details"
+                               href="${pageContext.request.contextPath}/books?action=detail&id=${book.idBook}">&#128269;</a>
                             <a class="icon-btn icon-edit" title="Edit book"
                                href="${pageContext.request.contextPath}/books?action=edit&id=${book.idBook}">&#9998;</a>
                             <form class="confirm-box" method="post"
@@ -66,7 +94,7 @@
             </c:forEach>
             <c:if test="${empty books}">
                 <tr>
-                    <td colspan="5" style="text-align:center;color:#64748b;padding:24px;">No books found.</td>
+                    <td colspan="6" style="text-align:center;color:#64748b;padding:24px;">No books found.</td>
                 </tr>
             </c:if>
             </tbody>
@@ -77,11 +105,30 @@
         <p>Showing ${books.size()} of ${totalBooks} books (page ${currentPage} of ${totalPages})</p>
         <div class="actions">
             <a class="btn btn-secondary"
-               href="${pageContext.request.contextPath}/books?search=${search}&page=${currentPage - 1}">Previous</a>
+               href="${pageContext.request.contextPath}/books?search=${search}&category=${category}&language=${language}&minPrice=${minPrice}&maxPrice=${maxPrice}&page=${currentPage - 1}">Previous</a>
             <a class="btn btn-primary"
-               href="${pageContext.request.contextPath}/books?search=${search}&page=${currentPage + 1}">Next</a>
+               href="${pageContext.request.contextPath}/books?search=${search}&category=${category}&language=${language}&minPrice=${minPrice}&maxPrice=${maxPrice}&page=${currentPage + 1}">Next</a>
         </div>
     </div>
+
+    <c:if test="${not empty detailBook}">
+        <div class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h2>Book details</h2>
+                    <a class="modal-close" href="${pageContext.request.contextPath}/books" aria-label="Close">&times;</a>
+                </div>
+                <div class="form-grid">
+                    <div><strong>Title</strong><br>${detailBook.title}</div>
+                    <div><strong>Author</strong><br>${detailBook.author}</div>
+                    <div><strong>Genre</strong><br>${detailBook.category}</div>
+                    <div><strong>Language</strong><br>${detailBook.language}</div>
+                    <div><strong>Price</strong><br><fmt:formatNumber value="${detailBook.price}" type="currency" currencySymbol="$"/></div>
+                    <div><strong>Available stock</strong><br>${detailBook.stock}</div>
+                </div>
+            </div>
+        </div>
+    </c:if>
 
     <c:if test="${not empty formTitle}">
         <div class="modal-overlay">
@@ -100,12 +147,25 @@
                     </label>
                     <label>
                         Author
-                        <input type="text" name="author" value="${modalBook.author}">
+                        <input type="text" name="author" value="${modalBook.author}"
+                               required pattern=".*\S.*"
+                               title="Author is required and cannot be blank">
                     </label>
                     <label>
                         Category
-                        <input type="text" name="category" value="${modalBook.category}">
+                        <input type="text" name="category" value="${modalBook.category}"
+                               required pattern=".*\S.*"
+                               title="Category is required and cannot be blank">
                     </label>
+                    <label>
+                        Language
+                        <input type="text" name="language" value="${modalBook.language}"
+                               required pattern="(?=.*\S)[^0-9]*"
+                               title="Language is required and cannot contain numbers">
+                    </label>
+                    <c:if test="${not empty param.error}">
+                        <p class="error-text">${param.error}</p>
+                    </c:if>
                     <div class="row-2">
                         <label>
                             Price

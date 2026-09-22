@@ -30,6 +30,9 @@ public class Book {
     @Column(name = "category", length = 100)
     private String category;
 
+    @Column(name = "language", length = 80)
+    private String language;
+
     @Column(name = "price", nullable = false, precision = 18, scale = 6)
     private BigDecimal price;
 
@@ -39,19 +42,21 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String author, String category, BigDecimal price, int stock) {
+    public Book(String title, String author, String category, String language, BigDecimal price, int stock) {
         this.title = title;
         this.author = author;
         this.category = category;
+        this.language = language;
         this.price = price;
         this.stock = stock;
     }
 
-    public Book(Long idBook, String title, String author, String category, BigDecimal price, int stock) {
+    public Book(Long idBook, String title, String author, String category, String language, BigDecimal price, int stock) {
         this.idBook = idBook;
         this.title = title;
         this.author = author;
         this.category = category;
+        this.language = language;
         this.price = price;
         this.stock = stock;
     }
@@ -86,6 +91,14 @@ public class Book {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public BigDecimal getPrice() {
